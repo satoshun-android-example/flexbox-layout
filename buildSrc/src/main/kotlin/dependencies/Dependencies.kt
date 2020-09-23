@@ -59,7 +59,7 @@ const val COMPOSE_UI_TOOLING = "androidx.ui:ui-tooling:$VCOMPOSE"
 const val COMPOSE_FOUNDATION = "androidx.compose.foundation:foundation:$VCOMPOSE"
 const val COMPOSE_FOUNDATION_LAYOUT = "androidx.compose.foundation:foundation-layout:$VCOMPOSE"
 const val COMPOSE_ANIMATION = "androidx.compose.animation:animation:$VCOMPOSE"
-const val COMPOSE_MATERIAL = "androidx.compose.material:material-icons-extended:$VCOMPOSE"
+const val COMPOSE_MATERIAL = "androidx.compose.material:material:$VCOMPOSE"
 
 const val JUNIT = "junit:junit:4.13-beta-1"
 const val TRUTH = "com.google.truth:truth:0.42"

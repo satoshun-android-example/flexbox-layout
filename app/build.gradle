@@ -27,7 +27,6 @@ android {
   }
   kotlinOptions {
     jvmTarget = '1.8'
-    allWarningsAsErrors = true
   }
   buildFeatures {
     compose true
@@ -71,4 +70,16 @@ dependencies {
 
   androidTestImplementation TEST_RUNNER
   androidTestImplementation ESPRESSO
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+  kotlinOptions {
+    freeCompilerArgs += '-Xopt-in=kotlin.RequiresOptIn'
+    // Enable experimental coroutines APIs, including Flow
+    freeCompilerArgs += '-Xopt-in=kotlin.Experimental'
+    freeCompilerArgs += '-Xallow-jvm-ir-dependencies'
+
+    // Set JVM target to 1.8
+    jvmTarget = "1.8"
+  }
 }
