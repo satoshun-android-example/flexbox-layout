@@ -6,7 +6,9 @@ sealed class FlexWrap {
 
 sealed class FlexDirection {
   object Row : FlexDirection()
+  object RowReverse : FlexDirection()
   object Column : FlexDirection()
+  object ColumnReverse : FlexDirection()
 }
 
 sealed class JustifyContent {

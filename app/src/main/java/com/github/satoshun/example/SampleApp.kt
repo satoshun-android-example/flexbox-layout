@@ -102,15 +102,26 @@ fun AppDrawer(
 ) {
   Column(modifier = Modifier.fillMaxSize()) {
     Spacer(modifier = Modifier.preferredHeight(8.dp))
-    Text("Direction", style = MaterialTheme.typography.h2)
+    Text("Direction", style = MaterialTheme.typography.h3)
     Spacer(modifier = Modifier.preferredHeight(8.dp))
     Row {
       Button(onClick = { changeDirection(FlexDirection.Row) }) {
         Text("Row")
       }
       Spacer(modifier = Modifier.preferredWidth(8.dp))
+
+      Button(onClick = { changeDirection(FlexDirection.RowReverse) }) {
+        Text("RowReverse")
+      }
+      Spacer(modifier = Modifier.preferredWidth(8.dp))
+
       Button(onClick = { changeDirection(FlexDirection.Column) }) {
         Text("Column")
+      }
+      Spacer(modifier = Modifier.preferredWidth(8.dp))
+
+      Button(onClick = { changeDirection(FlexDirection.ColumnReverse) }) {
+        Text("ColumnReverse")
       }
     }
   }

@@ -47,7 +47,36 @@ fun Flexbox(
         }
       }
     }
-  } else {
+  } else if (direction == FlexDirection.RowReverse) {
+    Layout(modifier = modifier, children = children) { measurables, constraints ->
+      val placeables = measurables.map {
+        val placeable = it.measure(constraints)
+        placeable
+      }
+      val layoutWidth = constraints.maxWidth
+      val layoutHeight = constraints.maxHeight
+
+      layout(layoutWidth, layoutHeight) {
+        var rowX = layoutWidth
+        var currentY = 0
+        var nextMaxHeight = 0
+
+        placeables.forEach { placeable ->
+          if (rowX - placeable.width < 0) {
+            rowX = layoutWidth
+            currentY += nextMaxHeight
+            nextMaxHeight = 0
+          }
+          rowX -= placeable.width
+          placeable.placeRelative(
+            x = rowX,
+            y = currentY
+          )
+          nextMaxHeight = max(nextMaxHeight, placeable.height)
+        }
+      }
+    }
+  } else if (direction == FlexDirection.Column) {
     Layout(modifier = modifier, children = children) { measurables, constraints ->
       val placeables = measurables.map {
         val placeable = it.measure(constraints)
@@ -72,6 +101,35 @@ fun Flexbox(
             y = rowY
           )
           rowY += placeable.height
+          nextMaxWidth = max(nextMaxWidth, placeable.width)
+        }
+      }
+    }
+  } else if (direction == FlexDirection.ColumnReverse) {
+    Layout(modifier = modifier, children = children) { measurables, constraints ->
+      val placeables = measurables.map {
+        val placeable = it.measure(constraints)
+        placeable
+      }
+      val layoutWidth = constraints.maxWidth
+      val layoutHeight = constraints.maxHeight
+
+      layout(layoutWidth, layoutHeight) {
+        var rowY = layoutHeight
+        var currentX = 0
+        var nextMaxWidth = 0
+
+        placeables.forEach { placeable ->
+          if (rowY - placeable.height < 0) {
+            rowY = layoutHeight
+            currentX += nextMaxWidth
+            nextMaxWidth = 0
+          }
+          rowY -= placeable.height
+          placeable.placeRelative(
+            x = currentX,
+            y = rowY
+          )
           nextMaxWidth = max(nextMaxWidth, placeable.width)
         }
       }
