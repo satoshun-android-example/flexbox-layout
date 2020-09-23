@@ -2,6 +2,7 @@ package com.github.satoshun.example
 
 sealed class FlexWrap {
   object Wrap : FlexWrap()
+  object WrapReverse : FlexWrap()
 }
 
 sealed class FlexDirection {

@@ -5,6 +5,14 @@ import androidx.compose.ui.Layout
 import androidx.compose.ui.Modifier
 import kotlin.math.max
 
+internal data class FlexItemPosition(
+  val x: Int = 0,
+  val y: Int = 0,
+  val width: Int = 0,
+  val height: Int = 0,
+  val line: Int = 0
+)
+
 // TODO support FlexboxScope
 // TDOO support maxLine
 @Composable
@@ -31,19 +39,56 @@ fun Flexbox(
         var rowX = 0
         var currentY = 0
         var nextMaxHeight = 0
+        var line = 0
 
-        placeables.forEach { placeable ->
+        val positions = MutableList(placeables.size) { FlexItemPosition() }
+
+        placeables.forEachIndexed { index, placeable ->
           if (rowX + placeable.width > layoutWidth) {
             rowX = 0
             currentY += nextMaxHeight
             nextMaxHeight = 0
+            line += 1
           }
-          placeable.placeRelative(
+          positions[index] = FlexItemPosition(
             x = rowX,
-            y = currentY
+            y = currentY,
+            width = placeable.width,
+            height = placeable.height,
+            line = line
           )
           rowX += placeable.width
           nextMaxHeight = max(nextMaxHeight, placeable.height)
+        }
+
+        when (wrap) {
+          FlexWrap.Wrap -> {
+            placeables.forEachIndexed { index, placeable ->
+              placeable.placeRelative(
+                x = positions[index].x,
+                y = positions[index].y
+              )
+            }
+          }
+          FlexWrap.WrapReverse -> {
+            var y = 0
+            var next: Int
+            while (line >= 0) {
+              next = 0
+              placeables.forEachIndexed { index, placeable ->
+                val position = positions[index]
+                if (position.line == line) {
+                  placeable.placeRelative(
+                    x = position.x,
+                    y = y
+                  )
+                  next = max(next, position.height)
+                }
+              }
+              y += next
+              line -= 1
+            }
+          }
         }
       }
     }

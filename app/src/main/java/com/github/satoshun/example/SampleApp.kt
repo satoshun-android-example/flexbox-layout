@@ -44,6 +44,9 @@ fun SampleApp(
   val (direction, setDirection) = remember {
     mutableStateOf<FlexDirection>(FlexDirection.Row)
   }
+  val (wrap, setWrap) = remember {
+    mutableStateOf<FlexWrap>(FlexWrap.Wrap)
+  }
 
   Surface(color = MaterialTheme.colors.background) {
     Scaffold(
@@ -63,6 +66,10 @@ fun SampleApp(
             setDirection(it)
             scaffoldState.drawerState.close()
           },
+          changeWrap = {
+            setWrap(it)
+            scaffoldState.drawerState.close()
+          },
           closeDrawer = {
             scaffoldState.drawerState.close()
           }
@@ -71,6 +78,7 @@ fun SampleApp(
     ) {
       Flexbox(
         direction = direction,
+        wrap = wrap
       ) {
         Text("test1", style = MaterialTheme.typography.h3)
         Text("test2")
@@ -98,6 +106,7 @@ fun SampleApp(
 @Composable
 fun AppDrawer(
   changeDirection: (FlexDirection) -> Unit,
+  changeWrap: (FlexWrap) -> Unit,
   closeDrawer: () -> Unit
 ) {
   Column(modifier = Modifier.fillMaxSize()) {
@@ -122,6 +131,20 @@ fun AppDrawer(
 
       Button(onClick = { changeDirection(FlexDirection.ColumnReverse) }) {
         Text("ColumnReverse")
+      }
+    }
+
+    Spacer(modifier = Modifier.preferredHeight(12.dp))
+    Text("Wrap", style = MaterialTheme.typography.h3)
+    Spacer(modifier = Modifier.preferredHeight(8.dp))
+    Row {
+      Button(onClick = { changeWrap(FlexWrap.Wrap) }) {
+        Text("Wrap")
+      }
+      Spacer(modifier = Modifier.preferredWidth(8.dp))
+
+      Button(onClick = { changeWrap(FlexWrap.WrapReverse) }) {
+        Text("WrapReverse")
       }
     }
   }
