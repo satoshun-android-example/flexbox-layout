@@ -5,24 +5,17 @@ import androidx.compose.ui.Layout
 import androidx.compose.ui.Modifier
 import kotlin.math.max
 
-sealed class FlexWrap {
-  object Wrap : FlexWrap()
-}
-
-sealed class JustifyContent {
-  object FlexStart : JustifyContent()
-}
-
-sealed class FlexDirection {
-  object Row : FlexDirection()
-}
-
+// TODO support FlexboxScope
+// TDOO support maxLine
 @Composable
 fun Flexbox(
   modifier: Modifier = Modifier,
   wrap: FlexWrap = FlexWrap.Wrap,
   direction: FlexDirection = FlexDirection.Row,
   justifyContent: JustifyContent = JustifyContent.FlexStart,
+  alignContent: AlignContent = AlignContent.FlexStart,
+  alignItems: AlignItems = AlignItems.FlexStart,
+  alignSelf: AlignSelf = AlignSelf.Auto,
   children: @Composable () -> Unit
 ) {
   Layout(modifier = modifier, children = children) { measurables, constraints ->
