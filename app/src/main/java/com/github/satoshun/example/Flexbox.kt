@@ -18,30 +18,62 @@ fun Flexbox(
   alignSelf: AlignSelf = AlignSelf.Auto,
   children: @Composable () -> Unit
 ) {
-  Layout(modifier = modifier, children = children) { measurables, constraints ->
-    val placeables = measurables.map {
-      val placeable = it.measure(constraints)
-      placeable
-    }
-    val layoutWidth = constraints.maxWidth
-    val layoutHeight = constraints.maxHeight
-    layout(layoutWidth, layoutHeight) {
-      var rowX = 0
-      var currentY = 0
-      var nextMaxHeight = 0
+  if (direction == FlexDirection.Row) {
+    Layout(modifier = modifier, children = children) { measurables, constraints ->
+      val placeables = measurables.map {
+        val placeable = it.measure(constraints)
+        placeable
+      }
+      val layoutWidth = constraints.maxWidth
+      val layoutHeight = constraints.maxHeight
 
-      placeables.forEach { placeable ->
-        if (rowX + placeable.width > layoutWidth) {
-          rowX = 0
-          currentY += nextMaxHeight
-          nextMaxHeight = 0
+      layout(layoutWidth, layoutHeight) {
+        var rowX = 0
+        var currentY = 0
+        var nextMaxHeight = 0
+
+        placeables.forEach { placeable ->
+          if (rowX + placeable.width > layoutWidth) {
+            rowX = 0
+            currentY += nextMaxHeight
+            nextMaxHeight = 0
+          }
+          placeable.placeRelative(
+            x = rowX,
+            y = currentY
+          )
+          rowX += placeable.width
+          nextMaxHeight = max(nextMaxHeight, placeable.height)
         }
-        placeable.placeRelative(
-          x = rowX,
-          y = currentY
-        )
-        rowX += placeable.width
-        nextMaxHeight = max(nextMaxHeight, placeable.height)
+      }
+    }
+  } else {
+    Layout(modifier = modifier, children = children) { measurables, constraints ->
+      val placeables = measurables.map {
+        val placeable = it.measure(constraints)
+        placeable
+      }
+      val layoutWidth = constraints.maxWidth
+      val layoutHeight = constraints.maxHeight
+
+      layout(layoutWidth, layoutHeight) {
+        var rowY = 0
+        var currentX = 0
+        var nextMaxWidth = 0
+
+        placeables.forEach { placeable ->
+          if (rowY + placeable.height > layoutHeight) {
+            rowY = 0
+            currentX += nextMaxWidth
+            nextMaxWidth = 0
+          }
+          placeable.placeRelative(
+            x = currentX,
+            y = rowY
+          )
+          rowY += placeable.height
+          nextMaxWidth = max(nextMaxWidth, placeable.width)
+        }
       }
     }
   }
