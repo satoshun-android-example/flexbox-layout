@@ -127,32 +127,38 @@ fun AppDrawer(
 ) {
   Column(modifier = Modifier.fillMaxSize()) {
     Spacer(modifier = Modifier.preferredHeight(8.dp))
-    Text("Direction", style = MaterialTheme.typography.h3)
+    Text("Direction", style = MaterialTheme.typography.h4)
     Spacer(modifier = Modifier.preferredHeight(8.dp))
-    Row {
-      Button(onClick = { changeDirection(FlexDirection.Row) }) {
-        Text("Row")
-      }
-      Spacer(modifier = Modifier.preferredWidth(8.dp))
+    Column {
+      Row {
+        Button(onClick = { changeDirection(FlexDirection.Row) }) {
+          Text("Row")
+        }
+        Spacer(modifier = Modifier.preferredWidth(8.dp))
 
-      Button(onClick = { changeDirection(FlexDirection.RowReverse) }) {
-        Text("RowReverse")
-      }
-      Spacer(modifier = Modifier.preferredWidth(8.dp))
+        Button(onClick = { changeDirection(FlexDirection.RowReverse) }) {
+          Text("RowReverse")
+        }
+        Spacer(modifier = Modifier.preferredWidth(8.dp))
 
-      Button(onClick = { changeDirection(FlexDirection.Column) }) {
-        Text("Column")
+        Button(onClick = { changeDirection(FlexDirection.Column) }) {
+          Text("Column")
+        }
+        Spacer(modifier = Modifier.preferredWidth(8.dp))
       }
-      Spacer(modifier = Modifier.preferredWidth(8.dp))
 
-      Button(onClick = { changeDirection(FlexDirection.ColumnReverse) }) {
-        Text("ColumnReverse")
+      Spacer(modifier = Modifier.preferredHeight(8.dp))
+
+      Row {
+        Button(onClick = { changeDirection(FlexDirection.ColumnReverse) }) {
+          Text("ColumnReverse")
+        }
       }
     }
 
     Spacer(modifier = Modifier.preferredHeight(12.dp))
 
-    Text("Wrap", style = MaterialTheme.typography.h3)
+    Text("Wrap", style = MaterialTheme.typography.h4)
     Spacer(modifier = Modifier.preferredHeight(8.dp))
     Row {
       Button(onClick = { changeWrap(FlexWrap.Wrap) }) {
@@ -167,26 +173,38 @@ fun AppDrawer(
 
     Spacer(modifier = Modifier.preferredHeight(12.dp))
 
-    Text("JustifyContent", style = MaterialTheme.typography.h3)
+    Text("JustifyContent", style = MaterialTheme.typography.h4)
     Spacer(modifier = Modifier.preferredHeight(8.dp))
-    Row {
-      Button(onClick = { changeJustifyContent(JustifyContent.FlexStart) }) {
-        Text("FlexStart")
-      }
-      Spacer(modifier = Modifier.preferredWidth(8.dp))
+    Column {
+      Row {
+        Button(onClick = { changeJustifyContent(JustifyContent.FlexStart) }) {
+          Text("FlexStart")
+        }
+        Spacer(modifier = Modifier.preferredWidth(8.dp))
 
-      Button(onClick = { changeJustifyContent(JustifyContent.FlexEnd) }) {
-        Text("FlexEnd")
-      }
-      Spacer(modifier = Modifier.preferredWidth(8.dp))
+        Button(onClick = { changeJustifyContent(JustifyContent.FlexEnd) }) {
+          Text("FlexEnd")
+        }
+        Spacer(modifier = Modifier.preferredWidth(8.dp))
 
-      Button(onClick = { changeJustifyContent(JustifyContent.Center) }) {
-        Text("Center")
+        Button(onClick = { changeJustifyContent(JustifyContent.Center) }) {
+          Text("Center")
+        }
+        Spacer(modifier = Modifier.preferredWidth(8.dp))
       }
-      Spacer(modifier = Modifier.preferredWidth(8.dp))
 
-      Button(onClick = { changeJustifyContent(JustifyContent.SpaceBetween) }) {
-        Text("SpaceBetween")
+      Spacer(modifier = Modifier.preferredHeight(8.dp))
+      Row {
+        Button(onClick = { changeJustifyContent(JustifyContent.SpaceBetween) }) {
+          Text("SpaceBetween")
+        }
+      }
+
+      Spacer(modifier = Modifier.preferredHeight(8.dp))
+      Row {
+        Button(onClick = { changeJustifyContent(JustifyContent.SpaceAround) }) {
+          Text("SpaceAround")
+        }
       }
     }
   }
