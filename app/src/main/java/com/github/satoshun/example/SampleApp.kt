@@ -178,6 +178,11 @@ fun AppDrawer(
       Button(onClick = { changeJustifyContent(JustifyContent.FlexEnd) }) {
         Text("FlexEnd")
       }
+      Spacer(modifier = Modifier.preferredWidth(8.dp))
+
+      Button(onClick = { changeJustifyContent(JustifyContent.Center) }) {
+        Text("Center")
+      }
     }
   }
 }

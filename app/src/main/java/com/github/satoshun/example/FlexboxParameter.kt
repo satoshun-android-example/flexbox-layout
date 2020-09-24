@@ -15,6 +15,7 @@ sealed class FlexDirection {
 sealed class JustifyContent {
   object FlexStart : JustifyContent()
   object FlexEnd : JustifyContent()
+  object Center : JustifyContent()
 }
 
 sealed class AlignContent {

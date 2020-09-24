@@ -73,6 +73,9 @@ fun Flexbox(
           JustifyContent.FlexEnd -> {
             flexLines.forEach { it.toFlexEnd(layoutWidth) }
           }
+          JustifyContent.Center -> {
+            flexLines.forEach { it.toCenter(layoutWidth) }
+          }
         }
 
         when (wrap) {
@@ -214,6 +217,22 @@ internal fun FlexLine.toFlexEnd(maxWidth: Int) {
     }
     .toMutableList()
 }
+
+// use from Row direction
+internal fun FlexLine.toCenter(maxWidth: Int) {
+  var x = (maxWidth - lineWidth) / 2
+
+  items = items
+    .map {
+      val newItem = it.copy(x = x)
+      x += it.width
+      newItem
+    }
+    .toMutableList()
+}
+
+internal val FlexLine.lineWidth: Int
+  get() = items.sumBy { it.width }
 
 internal data class FlexItemPosition(
   val index: Int = 0,
