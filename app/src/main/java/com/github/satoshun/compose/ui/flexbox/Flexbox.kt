@@ -82,6 +82,9 @@ fun Flexbox(
           JustifyContent.SpaceAround -> {
             flexLines.forEach { it.toSpaceAround(layoutWidth) }
           }
+          JustifyContent.SpaceEvenly -> {
+            flexLines.forEach { it.toSpaceEvenly(layoutWidth) }
+          }
         }
 
         when (wrap) {
@@ -268,6 +271,25 @@ internal fun FlexLine.toSpaceAround(maxWidth: Int) {
     .map {
       val newItem = it.copy(x = x)
       x += it.width + (space * 2)
+      newItem
+    }
+    .toMutableList()
+}
+
+internal fun FlexLine.toSpaceEvenly(maxWidth: Int) {
+  val remainWidth = maxWidth - lineWidth
+  val space = if (itemSize == 0) {
+    0
+  } else {
+    remainWidth / (itemSize + 1)
+  }
+
+  var x = space
+
+  items = items
+    .map {
+      val newItem = it.copy(x = x)
+      x += it.width + space
       newItem
     }
     .toMutableList()

@@ -206,6 +206,13 @@ fun AppDrawer(
           Text("SpaceAround")
         }
       }
+
+      Spacer(modifier = Modifier.preferredHeight(8.dp))
+      Row {
+        Button(onClick = { changeJustifyContent(JustifyContent.SpaceEvenly) }) {
+          Text("SpaceEvenly")
+        }
+      }
     }
   }
 }

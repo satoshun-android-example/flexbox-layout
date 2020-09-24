@@ -18,6 +18,7 @@ sealed class JustifyContent {
   object Center : JustifyContent()
   object SpaceBetween : JustifyContent()
   object SpaceAround : JustifyContent()
+  object SpaceEvenly : JustifyContent()
 }
 
 sealed class AlignContent {
