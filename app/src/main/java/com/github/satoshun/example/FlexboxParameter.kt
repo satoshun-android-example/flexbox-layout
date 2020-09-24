@@ -27,6 +27,7 @@ sealed class AlignContent {
   object Center : AlignContent()
   object Stretch : AlignContent()
   object SpaceBetween : AlignContent()
+  object SpaceAround : AlignContent()
 }
 
 sealed class AlignItems {

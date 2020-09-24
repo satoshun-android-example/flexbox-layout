@@ -129,6 +129,17 @@ fun Flexbox(
               )
             }
           }
+          AlignContent.SpaceAround -> {
+            val totalHeight = flexLines.totalHeight
+            val lineSize = flexLines.size
+            flexLines.forEach {
+              it.toAlignContentSpaceAround(
+                maxHeight = layoutHeight,
+                totalHeight = totalHeight,
+                lineSize = lineSize
+              )
+            }
+          }
         }
 
         when (wrap) {
@@ -371,6 +382,19 @@ internal fun FlexRowLine.toAlignContentSpaceBetween(
 
   val space = (maxHeight - totalHeight) / (lineSize - 1)
   val newY = y + (space * line)
+  y = newY
+  items = items
+    .map { it.copy(y = newY) }
+    .toMutableList()
+}
+
+internal fun FlexRowLine.toAlignContentSpaceAround(
+  maxHeight: Int,
+  totalHeight: Int,
+  lineSize: Int
+) {
+  val space = (maxHeight - totalHeight) / (lineSize + 1)
+  val newY = y + (space * (line + 1))
   y = newY
   items = items
     .map { it.copy(y = newY) }

@@ -256,6 +256,13 @@ fun AppDrawer(
           Text("SpaceBetween")
         }
       }
+
+      Spacer(modifier = Modifier.preferredHeight(8.dp))
+      Row {
+        Button(onClick = { changeAlignContent(AlignContent.SpaceAround) }) {
+          Text("SpaceAround")
+        }
+      }
     }
   }
 }
