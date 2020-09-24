@@ -1,14 +1,16 @@
 package com.github.satoshun.example
 
+import androidx.compose.foundation.Box
+import androidx.compose.foundation.Icon
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.preferredHeight
 import androidx.compose.foundation.layout.preferredWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -16,17 +18,18 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Surface
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.state
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.component1
-import androidx.core.graphics.component2
 import androidx.ui.tooling.preview.Preview
+import com.github.satoshun.compose.ui.flexbox.Flexbox
 
 @Composable
 fun SampleTheme(
@@ -56,6 +59,7 @@ fun SampleApp(
           title = { Text(text = "sample app") },
           navigationIcon = {
             IconButton(onClick = { scaffoldState.drawerState.open() }) {
+              Icon(Icons.Filled.Home)
             }
           }
         )
@@ -80,24 +84,27 @@ fun SampleApp(
         direction = direction,
         wrap = wrap
       ) {
-        Text("test1", style = MaterialTheme.typography.h3)
-        Text("test2")
-        Spacer(Modifier.preferredWidth(24.dp))
-        Text("test3")
+        Box(modifier = Modifier.size(80.dp), backgroundColor = Color.Blue)
+        Box(modifier = Modifier.size(120.dp), backgroundColor = Color.Red)
+        Box(modifier = Modifier.size(24.dp), backgroundColor = Color.Cyan)
+        Box(modifier = Modifier.size(80.dp), backgroundColor = Color.Green)
 
         Row(Modifier.fillMaxWidth()) {
-          Text("row1")
-          Text("row2")
+          Box(
+            modifier = Modifier.size(40.dp).align(Alignment.CenterVertically),
+            backgroundColor = Color.Green
+          )
+          Box(modifier = Modifier.size(160.dp), backgroundColor = Color.Magenta)
         }
 
-        Text("test1", style = MaterialTheme.typography.h2)
+        Box(modifier = Modifier.size(24.dp), backgroundColor = Color.Yellow)
 
         Column {
-          Text("column1")
-          Text("column2")
+          Box(modifier = Modifier.size(60.dp), backgroundColor = Color.DarkGray)
+          Box(modifier = Modifier.size(90.dp), backgroundColor = Color.Black)
         }
 
-        Text("test1")
+        Box(modifier = Modifier.size(200.dp), backgroundColor = Color.Blue)
       }
     }
   }

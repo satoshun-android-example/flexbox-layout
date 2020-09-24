@@ -1,17 +1,15 @@
-package com.github.satoshun.example
+package com.github.satoshun.compose.ui.flexbox
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Layout
 import androidx.compose.ui.Modifier
+import com.github.satoshun.example.AlignContent
+import com.github.satoshun.example.AlignItems
+import com.github.satoshun.example.AlignSelf
+import com.github.satoshun.example.FlexDirection
+import com.github.satoshun.example.FlexWrap
+import com.github.satoshun.example.JustifyContent
 import kotlin.math.max
-
-internal data class FlexItemPosition(
-  val x: Int = 0,
-  val y: Int = 0,
-  val width: Int = 0,
-  val height: Int = 0,
-  val line: Int = 0
-)
 
 // TODO support FlexboxScope
 // TDOO support maxLine
@@ -181,3 +179,11 @@ fun Flexbox(
     }
   }
 }
+
+internal data class FlexItemPosition(
+  val x: Int = 0,
+  val y: Int = 0,
+  val width: Int = 0,
+  val height: Int = 0,
+  val line: Int = 0
+)

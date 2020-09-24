@@ -65,6 +65,7 @@ dependencies {
   implementation COMPOSE_FOUNDATION_LAYOUT
   implementation COMPOSE_ANIMATION
   implementation COMPOSE_MATERIAL
+  implementation COMPOSE_MATERIAL_ICON
 
   testImplementation JUNIT
 
