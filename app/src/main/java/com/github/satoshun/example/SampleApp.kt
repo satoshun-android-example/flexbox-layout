@@ -53,6 +53,9 @@ fun SampleApp(
   val (justifyContent, setJustifyContent) = remember {
     mutableStateOf<JustifyContent>(JustifyContent.FlexStart)
   }
+  val (alignContent, setAlignContent) = remember {
+    mutableStateOf<AlignContent>(AlignContent.FlexStart)
+  }
 
   Surface(color = MaterialTheme.colors.background) {
     Scaffold(
@@ -81,6 +84,10 @@ fun SampleApp(
             setJustifyContent(it)
             scaffoldState.drawerState.close()
           },
+          changeAlignContent = {
+            setAlignContent(it)
+            scaffoldState.drawerState.close()
+          },
           closeDrawer = {
             scaffoldState.drawerState.close()
           }
@@ -91,6 +98,7 @@ fun SampleApp(
         direction = direction,
         wrap = wrap,
         justifyContent = justifyContent,
+        alignContent = alignContent,
       ) {
         Box(modifier = Modifier.size(80.dp), backgroundColor = Color.Blue)
         Box(modifier = Modifier.size(120.dp), backgroundColor = Color.Red)
@@ -123,6 +131,7 @@ fun AppDrawer(
   changeDirection: (FlexDirection) -> Unit,
   changeWrap: (FlexWrap) -> Unit,
   changeJustifyContent: (JustifyContent) -> Unit,
+  changeAlignContent: (AlignContent) -> Unit,
   closeDrawer: () -> Unit
 ) {
   Column(modifier = Modifier.fillMaxSize()) {
@@ -211,6 +220,21 @@ fun AppDrawer(
       Row {
         Button(onClick = { changeJustifyContent(JustifyContent.SpaceEvenly) }) {
           Text("SpaceEvenly")
+        }
+      }
+    }
+
+    Text("AlignContent", style = MaterialTheme.typography.h4)
+    Spacer(modifier = Modifier.preferredHeight(8.dp))
+    Column {
+      Row {
+        Button(onClick = { changeAlignContent(AlignContent.FlexStart) }) {
+          Text("FlexStart")
+        }
+        Spacer(modifier = Modifier.preferredWidth(8.dp))
+
+        Button(onClick = { changeAlignContent(AlignContent.FlexEnd) }) {
+          Text("FlexEnd")
         }
       }
     }

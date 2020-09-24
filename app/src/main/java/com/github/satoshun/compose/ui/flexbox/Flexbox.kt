@@ -39,9 +39,9 @@ fun Flexbox(
         var nextMaxHeight = 0
         var line = 0
 
-        val flexLines = mutableListOf<FlexLine>()
+        val flexLines = mutableListOf<FlexRowLine>()
 
-        var flexLine = FlexLine(line = 0)
+        var flexLine = FlexRowLine(line = 0, y = 0)
         placeables.forEachIndexed { index, placeable ->
           // TODO check if first capacity over item
           if (rowX + placeable.width > layoutWidth) {
@@ -50,7 +50,7 @@ fun Flexbox(
             currentY += nextMaxHeight
             nextMaxHeight = 0
             line += 1
-            flexLine = FlexLine(line = line)
+            flexLine = FlexRowLine(line = line, y = currentY)
           }
           flexLine.items.add(
             FlexItemPosition(
@@ -84,6 +84,21 @@ fun Flexbox(
           }
           JustifyContent.SpaceEvenly -> {
             flexLines.forEach { it.toSpaceEvenly(layoutWidth) }
+          }
+        }
+
+        when (alignContent) {
+          AlignContent.FlexStart -> {
+            // do nothing
+          }
+          AlignContent.FlexEnd -> {
+            val totalHeight = flexLines.totalHeight
+            flexLines.forEach {
+              it.toAlignContentFlexEnd(
+                maxHeight = layoutHeight,
+                totalHeight = totalHeight
+              )
+            }
           }
         }
 
@@ -210,13 +225,14 @@ fun Flexbox(
   }
 }
 
-internal data class FlexLine(
+internal data class FlexRowLine(
   var items: MutableList<FlexItemPosition> = mutableListOf(),
-  val line: Int
+  val line: Int,
+  var y: Int
 )
 
 // use from Row direction
-internal fun FlexLine.toFlexEnd(maxWidth: Int) {
+internal fun FlexRowLine.toFlexEnd(maxWidth: Int) {
   var x = maxWidth
 
   items = items.asReversed()
@@ -228,7 +244,7 @@ internal fun FlexLine.toFlexEnd(maxWidth: Int) {
 }
 
 // use from Row direction
-internal fun FlexLine.toCenter(maxWidth: Int) {
+internal fun FlexRowLine.toCenter(maxWidth: Int) {
   var x = (maxWidth - lineWidth) / 2
 
   items = items
@@ -241,7 +257,7 @@ internal fun FlexLine.toCenter(maxWidth: Int) {
 }
 
 // use from Row direction
-internal fun FlexLine.toSpaceBetween(maxWidth: Int) {
+internal fun FlexRowLine.toSpaceBetween(maxWidth: Int) {
   var x = 0
 
   val remainWidth = maxWidth - lineWidth
@@ -257,7 +273,7 @@ internal fun FlexLine.toSpaceBetween(maxWidth: Int) {
 }
 
 // use from Row direction
-internal fun FlexLine.toSpaceAround(maxWidth: Int) {
+internal fun FlexRowLine.toSpaceAround(maxWidth: Int) {
   val remainWidth = maxWidth - lineWidth
   val space = if (itemSize == 0) {
     0
@@ -276,7 +292,7 @@ internal fun FlexLine.toSpaceAround(maxWidth: Int) {
     .toMutableList()
 }
 
-internal fun FlexLine.toSpaceEvenly(maxWidth: Int) {
+internal fun FlexRowLine.toSpaceEvenly(maxWidth: Int) {
   val remainWidth = maxWidth - lineWidth
   val space = if (itemSize == 0) {
     0
@@ -295,11 +311,22 @@ internal fun FlexLine.toSpaceEvenly(maxWidth: Int) {
     .toMutableList()
 }
 
-internal val FlexLine.lineWidth: Int
+internal fun FlexRowLine.toAlignContentFlexEnd(maxHeight: Int, totalHeight: Int) {
+  val newY = y + (maxHeight - totalHeight)
+  y = newY
+  items = items
+    .map { it.copy(y = newY) }
+    .toMutableList()
+}
+
+internal val FlexRowLine.lineWidth: Int
   get() = items.sumBy { it.width }
 
-internal val FlexLine.itemSize: Int
+internal val FlexRowLine.itemSize: Int
   get() = items.size
+
+internal val List<FlexRowLine>.totalHeight: Int
+  get() = last().y + last().items.maxOf { it.height }
 
 internal data class FlexItemPosition(
   val index: Int = 0,
@@ -309,7 +336,7 @@ internal data class FlexItemPosition(
   val height: Int = 0
 )
 
-internal fun List<FlexLine>.findByIndex(target: Int): FlexItemPosition {
+internal fun List<FlexRowLine>.findByIndex(target: Int): FlexItemPosition {
   forEach { line ->
     val findOrNull = line.items.firstOrNull { it.index == target }
     if (findOrNull != null) return findOrNull
