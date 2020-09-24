@@ -52,12 +52,14 @@ fun Flexbox(
             line += 1
             flexLine = FlexLine(line = line)
           }
-          flexLine.items += FlexItemPosition(
-            index = index,
-            x = rowX,
-            y = currentY,
-            width = placeable.width,
-            height = placeable.height
+          flexLine.items.add(
+            FlexItemPosition(
+              index = index,
+              x = rowX,
+              y = currentY,
+              width = placeable.width,
+              height = placeable.height
+            )
           )
           rowX += placeable.width
           nextMaxHeight = max(nextMaxHeight, placeable.height)
@@ -69,7 +71,7 @@ fun Flexbox(
             // do nothing
           }
           JustifyContent.FlexEnd -> {
-            TODO()
+            flexLines.forEach { it.toFlexEnd(layoutWidth) }
           }
         }
 
@@ -197,9 +199,21 @@ fun Flexbox(
 }
 
 internal data class FlexLine(
-  val items: MutableList<FlexItemPosition> = mutableListOf(),
+  var items: MutableList<FlexItemPosition> = mutableListOf(),
   val line: Int
 )
+
+// use from Row direction
+internal fun FlexLine.toFlexEnd(maxWidth: Int) {
+  var x = maxWidth
+
+  items = items.asReversed()
+    .map {
+      x -= it.width
+      it.copy(x = x)
+    }
+    .toMutableList()
+}
 
 internal data class FlexItemPosition(
   val index: Int = 0,
