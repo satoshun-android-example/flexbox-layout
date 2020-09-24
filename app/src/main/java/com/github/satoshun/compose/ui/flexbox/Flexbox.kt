@@ -100,6 +100,15 @@ fun Flexbox(
               )
             }
           }
+          AlignContent.Center -> {
+            val totalHeight = flexLines.totalHeight
+            flexLines.forEach {
+              it.toAlignContentCenter(
+                maxHeight = layoutHeight,
+                totalHeight = totalHeight
+              )
+            }
+          }
         }
 
         when (wrap) {
@@ -312,7 +321,17 @@ internal fun FlexRowLine.toSpaceEvenly(maxWidth: Int) {
 }
 
 internal fun FlexRowLine.toAlignContentFlexEnd(maxHeight: Int, totalHeight: Int) {
-  val newY = y + (maxHeight - totalHeight)
+  val startY = maxHeight - totalHeight
+  val newY = y + startY
+  y = newY
+  items = items
+    .map { it.copy(y = newY) }
+    .toMutableList()
+}
+
+internal fun FlexRowLine.toAlignContentCenter(maxHeight: Int, totalHeight: Int) {
+  val startY = (maxHeight - totalHeight) / 2
+  val newY = y + startY
   y = newY
   items = items
     .map { it.copy(y = newY) }
