@@ -50,6 +50,9 @@ fun SampleApp(
   val (wrap, setWrap) = remember {
     mutableStateOf<FlexWrap>(FlexWrap.Wrap)
   }
+  val (justifyContent, setJustifyContent) = remember {
+    mutableStateOf<JustifyContent>(JustifyContent.FlexStart)
+  }
 
   Surface(color = MaterialTheme.colors.background) {
     Scaffold(
@@ -74,6 +77,10 @@ fun SampleApp(
             setWrap(it)
             scaffoldState.drawerState.close()
           },
+          changeJustifyContent = {
+            setJustifyContent(it)
+            scaffoldState.drawerState.close()
+          },
           closeDrawer = {
             scaffoldState.drawerState.close()
           }
@@ -82,7 +89,8 @@ fun SampleApp(
     ) {
       Flexbox(
         direction = direction,
-        wrap = wrap
+        wrap = wrap,
+        justifyContent = justifyContent,
       ) {
         Box(modifier = Modifier.size(80.dp), backgroundColor = Color.Blue)
         Box(modifier = Modifier.size(120.dp), backgroundColor = Color.Red)
@@ -114,6 +122,7 @@ fun SampleApp(
 fun AppDrawer(
   changeDirection: (FlexDirection) -> Unit,
   changeWrap: (FlexWrap) -> Unit,
+  changeJustifyContent: (JustifyContent) -> Unit,
   closeDrawer: () -> Unit
 ) {
   Column(modifier = Modifier.fillMaxSize()) {
@@ -142,6 +151,7 @@ fun AppDrawer(
     }
 
     Spacer(modifier = Modifier.preferredHeight(12.dp))
+
     Text("Wrap", style = MaterialTheme.typography.h3)
     Spacer(modifier = Modifier.preferredHeight(8.dp))
     Row {
@@ -152,6 +162,21 @@ fun AppDrawer(
 
       Button(onClick = { changeWrap(FlexWrap.WrapReverse) }) {
         Text("WrapReverse")
+      }
+    }
+
+    Spacer(modifier = Modifier.preferredHeight(12.dp))
+
+    Text("JustifyContent", style = MaterialTheme.typography.h3)
+    Spacer(modifier = Modifier.preferredHeight(8.dp))
+    Row {
+      Button(onClick = { changeJustifyContent(JustifyContent.FlexStart) }) {
+        Text("FlexStart")
+      }
+      Spacer(modifier = Modifier.preferredWidth(8.dp))
+
+      Button(onClick = { changeJustifyContent(JustifyContent.FlexEnd) }) {
+        Text("FlexEnd")
       }
     }
   }

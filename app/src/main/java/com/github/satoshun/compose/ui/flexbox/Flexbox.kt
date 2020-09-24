@@ -39,32 +39,47 @@ fun Flexbox(
         var nextMaxHeight = 0
         var line = 0
 
-        val positions = MutableList(placeables.size) { FlexItemPosition() }
+        val flexLines = mutableListOf<FlexLine>()
 
+        var flexLine = FlexLine(line = 0)
         placeables.forEachIndexed { index, placeable ->
+          // TODO check if first capacity over item
           if (rowX + placeable.width > layoutWidth) {
+            flexLines += flexLine
             rowX = 0
             currentY += nextMaxHeight
             nextMaxHeight = 0
             line += 1
+            flexLine = FlexLine(line = line)
           }
-          positions[index] = FlexItemPosition(
+          flexLine.items += FlexItemPosition(
+            index = index,
             x = rowX,
             y = currentY,
             width = placeable.width,
-            height = placeable.height,
-            line = line
+            height = placeable.height
           )
           rowX += placeable.width
           nextMaxHeight = max(nextMaxHeight, placeable.height)
+        }
+        flexLines += flexLine
+
+        when (justifyContent) {
+          JustifyContent.FlexStart -> {
+            // do nothing
+          }
+          JustifyContent.FlexEnd -> {
+            TODO()
+          }
         }
 
         when (wrap) {
           FlexWrap.Wrap -> {
             placeables.forEachIndexed { index, placeable ->
+              val target = flexLines.findByIndex(index)
               placeable.placeRelative(
-                x = positions[index].x,
-                y = positions[index].y
+                x = target.x,
+                y = target.y
               )
             }
           }
@@ -73,16 +88,17 @@ fun Flexbox(
             var next: Int
             while (line >= 0) {
               next = 0
-              placeables.forEachIndexed { index, placeable ->
-                val position = positions[index]
-                if (position.line == line) {
-                  placeable.placeRelative(
-                    x = position.x,
-                    y = y
-                  )
-                  next = max(next, position.height)
-                }
+
+              val fl = flexLines[line]
+              fl.items.map { position ->
+                val placeable = placeables[position.index]
+                placeable.placeRelative(
+                  x = position.x,
+                  y = y
+                )
+                next = max(next, position.height)
               }
+
               y += next
               line -= 1
             }
@@ -180,10 +196,23 @@ fun Flexbox(
   }
 }
 
+internal data class FlexLine(
+  val items: MutableList<FlexItemPosition> = mutableListOf(),
+  val line: Int
+)
+
 internal data class FlexItemPosition(
+  val index: Int = 0,
   val x: Int = 0,
   val y: Int = 0,
   val width: Int = 0,
-  val height: Int = 0,
-  val line: Int = 0
+  val height: Int = 0
 )
+
+internal fun List<FlexLine>.findByIndex(target: Int): FlexItemPosition {
+  forEach { line ->
+    val findOrNull = line.items.firstOrNull { it.index == target }
+    if (findOrNull != null) return findOrNull
+  }
+  throw IllegalArgumentException("illegal target index $target")
+}
