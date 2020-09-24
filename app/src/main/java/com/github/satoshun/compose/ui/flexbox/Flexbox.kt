@@ -76,6 +76,9 @@ fun Flexbox(
           JustifyContent.Center -> {
             flexLines.forEach { it.toCenter(layoutWidth) }
           }
+          JustifyContent.SpaceBetween -> {
+            flexLines.forEach { it.toSpaceBetween(layoutWidth) }
+          }
         }
 
         when (wrap) {
@@ -231,8 +234,27 @@ internal fun FlexLine.toCenter(maxWidth: Int) {
     .toMutableList()
 }
 
+// use from Row direction
+internal fun FlexLine.toSpaceBetween(maxWidth: Int) {
+  var x = 0
+
+  val remainWidth = maxWidth - lineWidth
+  val margin = if (itemSize <= 1) 0 else remainWidth / (itemSize - 1)
+
+  items = items
+    .map {
+      val newItem = it.copy(x = x)
+      x += it.width + margin
+      newItem
+    }
+    .toMutableList()
+}
+
 internal val FlexLine.lineWidth: Int
   get() = items.sumBy { it.width }
+
+internal val FlexLine.itemSize: Int
+  get() = items.size
 
 internal data class FlexItemPosition(
   val index: Int = 0,

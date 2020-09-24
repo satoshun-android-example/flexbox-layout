@@ -16,6 +16,7 @@ sealed class JustifyContent {
   object FlexStart : JustifyContent()
   object FlexEnd : JustifyContent()
   object Center : JustifyContent()
+  object SpaceBetween : JustifyContent()
 }
 
 sealed class AlignContent {

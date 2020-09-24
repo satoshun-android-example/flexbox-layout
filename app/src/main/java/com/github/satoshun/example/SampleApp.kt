@@ -183,6 +183,11 @@ fun AppDrawer(
       Button(onClick = { changeJustifyContent(JustifyContent.Center) }) {
         Text("Center")
       }
+      Spacer(modifier = Modifier.preferredWidth(8.dp))
+
+      Button(onClick = { changeJustifyContent(JustifyContent.SpaceBetween) }) {
+        Text("SpaceBetween")
+      }
     }
   }
 }
