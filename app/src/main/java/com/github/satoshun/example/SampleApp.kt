@@ -294,6 +294,18 @@ fun AppDrawer(
           Text("Center")
         }
       }
+
+      Spacer(modifier = Modifier.preferredHeight(8.dp))
+      Row {
+        Button(onClick = { changeAlignItems(AlignItems.Stretch) }) {
+          Text("Stretch")
+        }
+
+        Spacer(modifier = Modifier.preferredWidth(8.dp))
+        Button(onClick = { changeAlignItems(AlignItems.Baseline) }) {
+          Text("Baseline")
+        }
+      }
     }
 
     Spacer(modifier = Modifier.preferredHeight(60.dp))

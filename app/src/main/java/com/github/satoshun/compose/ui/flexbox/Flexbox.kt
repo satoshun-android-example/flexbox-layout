@@ -110,15 +110,7 @@ fun Flexbox(
             }
           }
           AlignContent.Stretch -> {
-            val totalHeight = flexLines.totalHeight
-            val lineSize = flexLines.size
-            flexLines.forEach {
-              it.toAlignContentStretch(
-                maxHeight = layoutHeight,
-                totalHeight = totalHeight,
-                lineSize = lineSize
-              )
-            }
+            TODO()
           }
           AlignContent.SpaceBetween -> {
             val totalHeight = flexLines.totalHeight
@@ -157,6 +149,12 @@ fun Flexbox(
             flexLines.forEach {
               it.toAlignItemsCenter()
             }
+          }
+          AlignItems.Stretch -> {
+            TODO()
+          }
+          AlignItems.Baseline -> {
+            TODO()
           }
         }
 
@@ -381,19 +379,6 @@ internal fun FlexRowLine.toAlignContentFlexEnd(maxHeight: Int, totalHeight: Int)
 internal fun FlexRowLine.toAlignContentCenter(maxHeight: Int, totalHeight: Int) {
   val startY = (maxHeight - totalHeight) / 2
   val newY = y + startY
-  y = newY
-  items = items
-    .map { it.copy(y = newY) }
-    .toMutableList()
-}
-
-internal fun FlexRowLine.toAlignContentStretch(
-  maxHeight: Int,
-  totalHeight: Int,
-  lineSize: Int
-) {
-  val space = (maxHeight - totalHeight) / lineSize
-  val newY = y + (space * line)
   y = newY
   items = items
     .map { it.copy(y = newY) }

@@ -34,6 +34,8 @@ sealed class AlignItems {
   object FlexStart : AlignItems()
   object FlexEnd : AlignItems()
   object Center : AlignItems()
+  object Stretch : AlignItems()
+  object Baseline : AlignItems()
 }
 
 sealed class AlignSelf {
