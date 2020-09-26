@@ -153,6 +153,11 @@ fun Flexbox(
               it.toAlignItemsFlexEnd()
             }
           }
+          AlignItems.Center -> {
+            flexLines.forEach {
+              it.toAlignItemsCenter()
+            }
+          }
         }
 
         when (wrap) {
@@ -427,6 +432,13 @@ internal fun FlexRowLine.toAlignItemsFlexEnd() {
   val maxHeight = maxHeight
   items = items
     .map { it.copy(y = y + maxHeight - it.height) }
+    .toMutableList()
+}
+
+internal fun FlexRowLine.toAlignItemsCenter() {
+  val maxHeight = maxHeight
+  items = items
+    .map { it.copy(y = y + (maxHeight - it.height) / 2) }
     .toMutableList()
 }
 

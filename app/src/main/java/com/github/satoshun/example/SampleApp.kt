@@ -288,6 +288,11 @@ fun AppDrawer(
         Button(onClick = { changeAlignItems(AlignItems.FlexEnd) }) {
           Text("FlexEnd")
         }
+
+        Spacer(modifier = Modifier.preferredWidth(8.dp))
+        Button(onClick = { changeAlignItems(AlignItems.Center) }) {
+          Text("Center")
+        }
       }
     }
 

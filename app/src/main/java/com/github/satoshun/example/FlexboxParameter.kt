@@ -33,6 +33,7 @@ sealed class AlignContent {
 sealed class AlignItems {
   object FlexStart : AlignItems()
   object FlexEnd : AlignItems()
+  object Center : AlignItems()
 }
 
 sealed class AlignSelf {
