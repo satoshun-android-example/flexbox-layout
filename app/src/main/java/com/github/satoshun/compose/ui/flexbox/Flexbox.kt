@@ -144,6 +144,17 @@ fun Flexbox(
           }
         }
 
+        when (alignItems) {
+          AlignItems.FlexStart -> {
+            // do nothing
+          }
+          AlignItems.FlexEnd -> {
+            flexLines.forEach {
+              it.toAlignItemsFlexEnd()
+            }
+          }
+        }
+
         when (wrap) {
           FlexWrap.Wrap -> {
             placeables.forEachIndexed { index, placeable ->
@@ -412,11 +423,21 @@ internal fun FlexRowLine.toAlignContentSpaceAround(
     .toMutableList()
 }
 
+internal fun FlexRowLine.toAlignItemsFlexEnd() {
+  val maxHeight = maxHeight
+  items = items
+    .map { it.copy(y = y + maxHeight - it.height) }
+    .toMutableList()
+}
+
 internal val FlexRowLine.lineWidth: Int
   get() = items.sumBy { it.width }
 
 internal val FlexRowLine.itemSize: Int
   get() = items.size
+
+internal val FlexRowLine.maxHeight: Int
+  get() = items.maxOf { it.height }
 
 internal val List<FlexRowLine>.totalHeight: Int
   get() = last().y + last().items.maxOf { it.height }

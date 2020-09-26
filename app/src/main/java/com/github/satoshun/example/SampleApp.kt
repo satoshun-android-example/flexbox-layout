@@ -2,12 +2,14 @@ package com.github.satoshun.example
 
 import androidx.compose.foundation.Box
 import androidx.compose.foundation.Icon
+import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.preferredHeight
 import androidx.compose.foundation.layout.preferredWidth
 import androidx.compose.foundation.layout.size
@@ -56,6 +58,9 @@ fun SampleApp(
   val (alignContent, setAlignContent) = remember {
     mutableStateOf<AlignContent>(AlignContent.FlexStart)
   }
+  val (alignItems, setAlignItems) = remember {
+    mutableStateOf<AlignItems>(AlignItems.FlexStart)
+  }
 
   Surface(color = MaterialTheme.colors.background) {
     Scaffold(
@@ -88,6 +93,10 @@ fun SampleApp(
             setAlignContent(it)
             scaffoldState.drawerState.close()
           },
+          changeAlignItems = {
+            setAlignItems(it)
+            scaffoldState.drawerState.close()
+          },
           closeDrawer = {
             scaffoldState.drawerState.close()
           }
@@ -99,6 +108,7 @@ fun SampleApp(
         wrap = wrap,
         justifyContent = justifyContent,
         alignContent = alignContent,
+        alignItems = alignItems,
       ) {
         Box(modifier = Modifier.size(80.dp), backgroundColor = Color.Blue)
         Box(modifier = Modifier.size(120.dp), backgroundColor = Color.Red)
@@ -132,9 +142,10 @@ fun AppDrawer(
   changeWrap: (FlexWrap) -> Unit,
   changeJustifyContent: (JustifyContent) -> Unit,
   changeAlignContent: (AlignContent) -> Unit,
+  changeAlignItems: (AlignItems) -> Unit,
   closeDrawer: () -> Unit
 ) {
-  Column(modifier = Modifier.fillMaxSize()) {
+  ScrollableColumn(modifier = Modifier.fillMaxSize()) {
     Spacer(modifier = Modifier.preferredHeight(8.dp))
     Text("Direction", style = MaterialTheme.typography.h4)
     Spacer(modifier = Modifier.preferredHeight(8.dp))
@@ -264,6 +275,23 @@ fun AppDrawer(
         }
       }
     }
+
+    Text("AlignItems", style = MaterialTheme.typography.h4)
+    Spacer(modifier = Modifier.preferredHeight(8.dp))
+    Column {
+      Row {
+        Button(onClick = { changeAlignItems(AlignItems.FlexStart) }) {
+          Text("FlexStart")
+        }
+
+        Spacer(modifier = Modifier.preferredWidth(8.dp))
+        Button(onClick = { changeAlignItems(AlignItems.FlexEnd) }) {
+          Text("FlexEnd")
+        }
+      }
+    }
+
+    Spacer(modifier = Modifier.preferredHeight(60.dp))
   }
 }
 
